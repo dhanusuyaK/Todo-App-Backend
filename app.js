@@ -19,11 +19,14 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(passport.initialize());
 
+
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
-
 app.get('/', (req, res) => {
   res.send('Todo App Backend Running');
 });
-
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err);
+  res.status(500).json({ message: 'Something went wrong!' });
+});
 module.exports = app;
